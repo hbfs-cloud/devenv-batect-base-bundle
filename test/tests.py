@@ -6,12 +6,23 @@ import unittest
 class TestHelloWorldBundle(unittest.TestCase):
 
     def test_git_clone(self):
-        result = self.run_batect('git-clone')
+        result = self.run_batect('git-clone', ['https://github.com/batect/java-bundle.git'])
 
         self.assertIn("\nCloning into 'java-bundle'", result.stdout)
 
-    def run_batect(self, task):
+    def test_git_sparse_clone(self):
+        result = self.run_batect('git-sparse-clone', ['https://github.com/batect/java-bundle.git',
+                                                      'main',
+                                                      '.to-ignore',
+                                                      'test'])
+
+        self.assertIn("FETCH_HEAD", result.stdout)
+
+    def run_batect(self, task, args=None):
         command = ['./batect', '-f=test/sample/batect.yml', '--output=quiet', task]
+        if args:
+            command.append("--")
+            command += args
 
         env = {
             **os.environ,

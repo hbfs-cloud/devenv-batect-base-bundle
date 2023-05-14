@@ -1,6 +1,6 @@
 containers:
   git:
-    image: public.ecr.aws/bitnami/git:2
+    build_directory: .batect/git
     volumes:
       - local: <{batect.project_directory}
         container: /code
@@ -16,4 +16,11 @@ tasks:
     group: Build tasks
     run:
       container: git
-      command: git clone https://github.com/batect/java-bundle.git
+      command: git clone
+
+  git-sparse-clone:
+    description: Git clone subfolder
+    group: Build tasks
+    run:
+      container: git
+      command: git_sparse_clone
