@@ -11,10 +11,9 @@ class TestHelloWorldBundle(unittest.TestCase):
         self.assertIn("\nCloning into 'java-bundle'", result.stdout)
 
     def test_git_sparse_clone(self):
-        result = self.run_batect('git-sparse-clone', ['https://github.com/batect/java-bundle.git',
-                                                      'main',
-                                                      '.to-ignore',
-                                                      'test'])
+        result = self.run_batect(
+            'git-sparse-clone', ['https://github.com/batect/java-bundle.git', 'main', '.to-ignore', 'test']
+        )
 
         self.assertIn("FETCH_HEAD", result.stdout)
 
