@@ -8,7 +8,7 @@ class TestHelloWorldBundle(unittest.TestCase):
     def test_git_clone(self):
         result = self.run_batect('git-clone')
 
-        self.assertIn('\nGit clone test\n', result.stdout)
+        self.assertIn("\nCloning into 'java-bundle'", result.stdout)
 
     def run_batect(self, task):
         command = ['./batect', '-f=test/sample/batect.yml', '--output=quiet', task]
