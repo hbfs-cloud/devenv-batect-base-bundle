@@ -1,0 +1,19 @@
+containers:
+  git:
+    image: public.ecr.aws/bitnami/git:2
+    volumes:
+      - local: <{batect.project_directory}
+        container: /code
+        options: cached
+    working_directory: /code
+    run_as_current_user:
+      enabled: true
+      home_directory: /home/container-user
+
+tasks:
+  git-clone:
+    description: Git clone
+    group: Build tasks
+    run:
+      container: git
+      command: git clone https://github.com/batect/java-bundle.git

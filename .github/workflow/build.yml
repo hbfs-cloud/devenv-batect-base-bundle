@@ -1,0 +1,56 @@
+name: Pipeline
+
+on: [push, pull_request]
+
+env:
+  TERM: xterm-256color
+  BATECT_ENABLE_TELEMETRY: false
+jobs:
+  build:
+    name: "Lint and Test"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.5.2
+
+      - name: Validate Batect wrapper scripts
+        uses: batect/batect-wrapper-validation-action@v0.4.0
+
+      - name: Cache Batect
+        uses: actions/cache@v3.3.1
+        with:
+          path: ~/.batect/cache
+          key: batect-${{ hashFiles('batect') }}
+
+      - name: Check formatting
+        run: ./batect check-format
+
+      - name: Lint code
+        run: ./batect lint
+
+      - name: Test bundle
+        run: ./batect test
+
+  release:
+    name: "Release"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'hbfs-cloud/devenv-batect-base-bundle'
+    needs:
+      - build
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3.5.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3.6.0
+        with:
+          node-version: 18
+
+      - name: Create release
+        run: npx --package conventional-changelog-conventionalcommits@5.0.0 --package semantic-release@21.0.2 semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
