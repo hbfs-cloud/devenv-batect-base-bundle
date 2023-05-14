@@ -2,3 +2,4 @@ forbid_telemetry: true
 
 include:
   - batect.bundle.yml
+  - batect.base.yml

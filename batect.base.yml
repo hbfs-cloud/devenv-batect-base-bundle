@@ -1,0 +1,17 @@
+tasks:
+  check-format:
+    description: Run all formatting check tasks.
+    group: Formatting check tasks
+    prerequisites:
+      - check-format:*
+
+  lint:
+    description: Run all linting tasks.
+    group: Linting tasks
+    prerequisites:
+      - lint:*
+
+include:
+  - type: git
+    repo: https://github.com/batect/bundle-dev-bundle.git
+    ref: 0.101.0
