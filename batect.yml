@@ -1,0 +1,4 @@
+forbid_telemetry: true
+
+include:
+  - batect.bundle.yml
