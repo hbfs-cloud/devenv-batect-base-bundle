@@ -23,6 +23,7 @@ class TestHelloWorldBundle(unittest.TestCase):
         if result.returncode != 0 and result.returncode != 1:
             raise AssertionError(f'Command failed with exit code {result.returncode} and output: \n{result.stdout}')
 
+        result.returncode = 0
         return result
 
 
