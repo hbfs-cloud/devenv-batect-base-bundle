@@ -1,4 +1,28 @@
 containers:
+  alpine:
+    image: public.ecr.aws/docker/library/alpine:3.18.0
+    volumes:
+      - local: <{batect.project_directory}
+        container: /code
+        options: cached
+    working_directory: /code
+    run_as_current_user:
+      enabled: true
+      home_directory: /home/container-user
+    command: ""
+
+  bash:
+    image: public.ecr.aws/docker/library/bash:4.4.23
+    volumes:
+      - local: <{batect.project_directory}
+        container: /code
+        options: cached
+    working_directory: /code
+    run_as_current_user:
+      enabled: true
+      home_directory: /home/container-user
+    command: /usr/local/bin/docker-entrypoint.sh
+
   git:
     build_directory: .batect/git
     volumes:
@@ -24,3 +48,15 @@ tasks:
     run:
       container: git
       command: git_sparse_clone
+
+  bash:
+    description: bash
+    group: Build tasks
+    run:
+      container: bash
+
+  alpine:
+    description: alpine
+    group: Build tasks
+    run:
+      container: alpine
