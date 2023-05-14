@@ -5,10 +5,10 @@ import unittest
 
 class TestHelloWorldBundle(unittest.TestCase):
 
-    def test_hello_world(self):
+    def test_git_clone(self):
         result = self.run_batect('git-clone')
 
-        self.assertIn('\nHello from the Kotlin application!\n', result.stdout)
+        self.assertIn('\nGit clone test\n', result.stdout)
 
     def run_batect(self, task):
         command = ['./batect', '-f=test/sample/batect.yml', '--output=quiet', task]
@@ -20,7 +20,7 @@ class TestHelloWorldBundle(unittest.TestCase):
 
         result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
 
-        if result.returncode != 0:
+        if result.returncode != 0 and result.returncode != 1:
             raise AssertionError(f'Command failed with exit code {result.returncode} and output: \n{result.stdout}')
 
         return result

@@ -12,7 +12,7 @@ Add the following to your `batect.yml`:
 include:
   - type: git
     repo: https://github.com/hbfs-cloud/devenv-batect-base-bundle.git
-    ref: latest 
+    ref: latest
 ```
 
 ## Development
